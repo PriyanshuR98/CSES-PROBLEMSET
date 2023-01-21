@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define mod 1000000007
+long long int fac[2000001];
+
+//--------------------------------------------------------------
+// 				   				       (n!)%mod
+// To calculate -> p(n, r)%mod = -------------------------
+//              		  	        ((n - r)!)%mod
+//--------------------------------------------------------------
+
+// npr=((n!%mod)*(inv((n-r)!)%mod)*inv(r!)%mod))/%mod.
+
+long long int power(long long int a, long long int b)
+{
+
+    long long int res = 1;
+    while (b)
+    {
+        if (b & 1)
+            res = (res * a) % mod;
+        a = (a * a) % mod;
+        b /= 2;
+    }
+    return res;
+}
+
+
+
+void bincoeff(long long int n, long long int r)
+{
+    // ncr..
+
+    long long int res = fac[n];
+
+    res = res * (power(fac[n - r], mod - 2)) % mod;
+    res = res * (power(fac[r], mod - 2)) % mod;
+
+    cout << res % mod << endl;
+}
+
+
+
+void solve()
+{
+    long long int n, m;
+    cin >> n >> m;
+    bincoeff(n + m - 1, n - 1);         // jee shit .. sticks and mangoes ..
+}
+
+int main()
+{
+
+    fac[0] = fac[1] = 1;
+
+    for (int i = 2; i <= 2000000; i++)
+    {
+        fac[i] = (fac[i - 1] * i) % mod;
+    }
+
+    solve();
+}
