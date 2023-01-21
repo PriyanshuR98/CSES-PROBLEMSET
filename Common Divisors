@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<int> present(1e6 + 1, 0);         //making a present vector to mark out all present elements in array..
+
+void solve()
+{
+
+    int n;
+    cin >> n;
+
+    int a[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        cin >> a[i];
+
+        present[a[i]]++;               
+                                    // as same element can occur more than once in array..          
+    }
+
+    int maxgcd = *max_element(a, a + n);
+
+    for (int g = maxgcd; g >= 1; g--)
+    {
+        int multiples = 0;
+        for (int i = g; i <= 1e6; i += g)    // for every gcd we check if its multiples are present in array..
+        {
+            if (present[i]>=1)
+            {
+                multiples+=present[i];
+            }
+
+            if (multiples >1)
+            {
+                cout << g << endl;
+                return;
+            }
+        }
+    }
+}
+
+int main()
+{
+    int t;
+    t=1;
+    while (t--)
+    {
+        solve();
+    }
+}
